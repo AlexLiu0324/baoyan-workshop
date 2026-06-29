@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>善財尋寶・參訪闖關（第 1～10 參）— 寶嚴禪寺</title>
+<style>
+  body{margin:0;background:radial-gradient(circle at 50% -10%, #93292b, #7a1416 40%, #5a0d0f 100%);min-height:100vh;padding:18px 10px;}
+  #scai{--red:#7a1416;--red2:#9c2a2c;--gold:#c9a227;--goldL:#e8cf7a;--paper:#f7f0e1;--ink:#2b211a;--inkS:#5c4d3d;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);
+    max-width:560px;margin:0 auto;background:radial-gradient(circle at 50% -20%, #fff7e3, var(--paper) 60%);
+    border-radius:16px;padding:16px;box-shadow:0 12px 40px rgba(0,0,0,.35);}
+  #scai *{box-sizing:border-box;}
+  #scai .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+  #scai h1{font-size:22px;color:var(--red);text-align:center;margin:2px 0;font-weight:700;letter-spacing:.05em;}
+  #scai .sub{text-align:center;color:var(--inkS);font-size:13px;margin-bottom:8px;}
+  #scai .prog{text-align:center;font-size:13px;color:var(--red);font-weight:700;margin-bottom:8px;}
+  #scai .pp{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;background:#fff8ea;border:1px dashed var(--gold);border-radius:12px;padding:10px;margin-bottom:12px;}
+  #scai .slot{aspect-ratio:1;border-radius:50%;border:1.5px dashed #d8c79a;display:flex;align-items:center;justify-content:center;font-size:12px;color:#bdaf93;background:#fffdf6;}
+  #scai .slot.on{border:2px solid var(--red);color:#fff;background:radial-gradient(circle,var(--red2),var(--red));box-shadow:0 2px 6px rgba(122,20,22,.4);font-size:20px;font-weight:700;}
+  #scai .map{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;}
+  #scai .node{cursor:pointer;border-radius:12px;padding:9px 4px;background:#fff;border:1.5px solid var(--gold);color:var(--ink);font-family:inherit;text-align:center;transition:.15s;}
+  #scai .node:hover{transform:translateY(-2px);}
+  #scai .node .nn{display:block;font-size:16px;font-weight:700;color:var(--red);}
+  #scai .node .nv{display:block;font-size:11px;color:var(--inkS);margin-top:2px;}
+  #scai .node.done{background:linear-gradient(var(--red2),var(--red));border-color:var(--red);}
+  #scai .node.done .nn,#scai .node.done .nv{color:#fff;}
+  #scai .node.active{outline:3px solid var(--goldL);outline-offset:1px;}
+  #scai .panel{background:#fff;border:1px solid var(--gold);border-radius:14px;padding:16px;min-height:120px;}
+  #scai .ph{display:flex;align-items:center;gap:12px;}
+  #scai .seal{flex:0 0 56px;width:56px;height:56px;border-radius:50%;border:2px solid var(--red);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;background:#fff4f4;}
+  #scai .pt{font-size:18px;font-weight:700;color:var(--red);}
+  #scai .pl{font-size:12px;color:var(--inkS);margin-top:2px;}
+  #scai .blk{margin-top:12px;}
+  #scai .lab{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.1em;}
+  #scai .txt{font-size:14.5px;line-height:1.75;margin-top:3px;}
+  #scai .stampBtn{margin-top:14px;width:100%;border:none;border-radius:10px;padding:12px;background:linear-gradient(var(--red2),var(--red));color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;}
+  #scai .stampBtn:disabled{background:#bbab90;cursor:default;}
+  #scai .hintp{color:var(--inkS);text-align:center;padding:24px 8px;line-height:1.7;}
+  #scai .fin{margin-top:12px;background:linear-gradient(var(--red2),var(--red));color:#fff;border-radius:14px;padding:18px;text-align:center;}
+  #scai .fin h2{font-size:20px;margin:0 0 6px;}
+  #scai .fin textarea{width:100%;border-radius:8px;border:none;padding:10px;font-family:inherit;font-size:14px;margin-top:10px;resize:vertical;min-height:64px;}
+  #scai .fin .fbtn{margin-top:10px;background:var(--gold);border:none;color:#3a2c00;font-weight:700;border-radius:8px;padding:10px 16px;cursor:pointer;font-family:inherit;}
+  #scai .reset{display:block;margin:12px auto 0;background:none;border:1px solid #d8c79a;color:var(--inkS);border-radius:8px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:12px;}
+  #scai .foot{text-align:center;color:var(--inkS);font-size:11px;margin-top:10px;opacity:.8;}
+</style>
+</head>
+<body>
+<div id="scai">
+  <h2 class="sr-only">善財尋寶闖關遊戲：點選 10 位善知識，聽故事、做任務、寫反思，蓋滿 10 個智慧印就圓滿。</h2>
+  <h1>善財尋寶 ・ 參訪闖關</h1>
+  <div class="sub">第一段 ｜ 第 1～10 參 ｜ 寶嚴禪寺</div>
+  <div class="prog" id="prog">已得智慧印 0 / 10</div>
+  <div class="pp" id="pp"></div>
+  <div class="map" id="map"></div>
+  <div class="panel" id="panel"><div class="hintp">👆 點上面任何一位善知識，開始你的參訪之旅</div></div>
+  <div id="finale"></div>
+  <button class="reset" id="reset">重新開始</button>
+  <div class="foot">內容依《華嚴經・入法界品》善財童子五十三參改編　© 寶嚴禪寺</div>
+</div>
+<script>
+(function(){
+  var D=[
+    {n:1,name:"德雲比丘",place:"妙峰山",virtue:"心存光明",seal:"光",story:"德雲住在高高的妙峰山，心裡常亮著一盞燈，所以看得又遠又清楚。",task:"點亮心燈：閉上眼睛深呼吸三次，想一件今天的好事。",reflect:"我心裡那盞燈，今天照亮了什麼？"},
+    {n:2,name:"海雲比丘",place:"海門國",virtue:"包容如海",seal:"海",story:"海雲在海邊看大海看了好多年，學會像大海一樣，什麼都裝得下。",task:"大海的肚量：說一件你願意原諒的小事。",reflect:"我能不能像海一樣，把不開心放寬一點？"},
+    {n:3,name:"善住比丘",place:"海岸聚落",virtue:"心安步穩",seal:"穩",story:"善住走路的時候心裡沒有牽掛，所以走得又穩又自在，甚至能在空中走。",task:"穩穩走：頭頂一本書，慢慢走到終點不掉下來。",reflect:"有什麼事，讓我心裡卡卡的？"},
+    {n:4,name:"彌伽長者",place:"自在城",virtue:"好好說話",seal:"善",story:"彌伽會說好多種語言，他總是說真誠的好話，大家都喜歡聽他講。",task:"口吐蓮花：對旁邊的人，真心說一句讚美。",reflect:"今天我說出口的好話是？"},
+    {n:5,name:"解脫長者",place:"住林聚落",virtue:"學會放下",seal:"放",story:"解脫長者告訴善財：困住你的常常不是別人，而是你不肯放手的心。",task:"鬆手吧：握緊拳頭數到十，再慢慢張開，放下一件煩心事。",reflect:"我可以放下的一件事是？"},
+    {n:6,name:"海幢比丘",place:"摩利伽羅國",virtue:"先靜後動",seal:"靜",story:"海幢靜坐入定時全身會放光，因為他遇到事情，總是先靜下來才決定。",task:"數到十：下次想生氣前，先慢慢從一數到十。",reflect:"慢下來以後，我想到了什麼？"},
+    {n:7,name:"休捨優婆夷",place:"普莊嚴園",virtue:"不亂擔心",seal:"安",story:"休捨住在一座快樂花園，她說：「我們擔心的事，大多不會發生。」",task:"煩惱泡泡：說出一個擔心，大家一起喊「啵」把它戳破。",reflect:"我最近在擔心的事，真的會發生嗎？"},
+    {n:8,name:"毗目瞿沙仙人",place:"那羅素國",virtue:"立定志向",seal:"志",story:"仙人輕輕握住善財的手，善財立刻感覺到一股堅定不移的力量。",task:"立志手印：握住夥伴的手，大聲說出你的志願。",reflect:"不管別人怎麼說，都動搖不了我的是？"},
+    {n:9,name:"勝熱婆羅門",place:"伊沙那聚落",virtue:"不怕困難",seal:"勇",story:"勝熱用很難的考驗試善財的決心，通過之後，善財見到了大光明。",task:"勇氣關：完成一個小挑戰，例如單腳站十秒。",reflect:"哪一件難事，其實讓我變得更強？"},
+    {n:10,name:"慈行童女",place:"師子奮迅城",virtue:"溫柔的力量",seal:"慈",story:"慈行公主又溫柔又聰明，她用柔和的方式，就把困難的大事做成了。",task:"溫柔的力量：用最溫柔的聲音，請別人幫你一個忙。",reflect:"溫柔比兇，更有用的一次是什麼時候？"}
+  ];
+  var done={};
+  var pp=document.getElementById('pp'),map=document.getElementById('map'),panel=document.getElementById('panel'),prog=document.getElementById('prog'),finale=document.getElementById('finale');
+  function esc(s){return s;}
+  function renderPP(){pp.innerHTML=D.map(function(d){return '<div class="slot '+(done[d.n]?'on':'')+'">'+(done[d.n]?d.seal:d.n)+'</div>';}).join('');}
+  function renderMap(active){map.innerHTML=D.map(function(d){return '<button class="node '+(done[d.n]?'done':'')+' '+(active===d.n?'active':'')+'" data-n="'+d.n+'"><span class="nn">'+d.n+'</span><span class="nv">'+d.virtue+'</span></button>';}).join('');}
+  function open(n){var d=D.filter(function(x){return x.n===n;})[0];renderMap(n);
+    panel.innerHTML='<div class="ph"><div class="seal">'+d.seal+'</div><div><div class="pt">'+d.n+'. '+d.name+'</div><div class="pl">'+d.place+'　•　'+d.virtue+'</div></div></div>'+
+      '<div class="blk"><div class="lab">📖 小故事</div><div class="txt">'+d.story+'</div></div>'+
+      '<div class="blk"><div class="lab">🎯 任務</div><div class="txt">'+d.task+'</div></div>'+
+      '<div class="blk"><div class="lab">🕯️ 想一想</div><div class="txt">'+d.reflect+'</div></div>'+
+      '<button class="stampBtn" data-stamp="'+d.n+'" '+(done[d.n]?'disabled':'')+'>'+(done[d.n]?'✓ 已蓋上智慧印':'蓋上「'+d.seal+'」智慧印')+'</button>';}
+  function checkFin(){var c=Object.keys(done).length;prog.textContent='已得智慧印 '+c+' / 10';
+    if(c>=10){finale.innerHTML='<div class="fin"><h2>🎉 第一段圓滿！</h2><div>你向 10 位善知識，學到了 10 種美德。<br>把學到的「做出來」，才是真正的善財童子！</div><div style="margin-top:12px;font-weight:700">✍️ 我的一週善行卡</div><textarea placeholder="這個禮拜，我要做的一件善行是……"></textarea><button class="fbtn" onclick="window.print()">列印 / 存成 PDF 帶回家</button></div>';}
+    else{finale.innerHTML='';}}
+  map.addEventListener('click',function(e){var b=e.target.closest('.node');if(b){open(parseInt(b.getAttribute('data-n'),10));}});
+  panel.addEventListener('click',function(e){var b=e.target.closest('[data-stamp]');if(b){var n=parseInt(b.getAttribute('data-stamp'),10);done[n]=true;renderPP();open(n);checkFin();}});
+  document.getElementById('reset').addEventListener('click',function(){done={};renderPP();renderMap();panel.innerHTML='<div class="hintp">👆 點上面任何一位善知識，開始你的參訪之旅</div>';checkFin();});
+  renderPP();renderMap();checkFin();
+})();
+</script>
+</body>
+</html>
