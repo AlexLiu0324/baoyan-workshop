@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>善財童子・宇宙奇航　擲骰競賽 — 寶嚴禪寺</title>
+<style>
+  body{margin:0;background:radial-gradient(circle at 50% -10%,#2a3a82,#070d28 72%);min-height:100vh;padding:16px 10px;}
+  #sc{--gold:#e8cf7a;--goldD:#c9a227;--cyan:#5fd3e8;--pur:#9b7be0;--red:#ff6b81;--ink:#eaf0ff;--dim:#9fb0d8;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink);max-width:620px;margin:0 auto;
+    background:radial-gradient(circle at 50% 0%,#22326f,#0a1233 75%);border-radius:16px;padding:14px;position:relative;overflow:hidden;box-shadow:0 12px 44px rgba(0,0,0,.5);}
+  #sc *{box-sizing:border-box;}
+  #sc h1{font-size:19px;text-align:center;margin:0 0 8px;font-weight:700;color:var(--gold);text-shadow:0 0 12px rgba(232,207,122,.45);}
+  #sc .board{position:relative;display:grid;grid-template-columns:repeat(9,1fr);gap:4px;}
+  #sc .cell{aspect-ratio:1;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--dim);}
+  #sc .cell.K{border-color:rgba(95,211,232,.55);} #sc .cell.D{border-color:rgba(155,123,224,.55);} #sc .cell.F{border-color:rgba(255,107,129,.55);}
+  #sc .cell.start{background:rgba(95,211,232,.25);color:var(--cyan);font-size:13px;} #sc .cell.end{background:rgba(232,207,122,.3);color:var(--gold);font-size:11px;}
+  #sc .cell.lit{animation:lit .5s;}
+  @keyframes lit{0%{background:rgba(232,207,122,.8);box-shadow:0 0 16px rgba(232,207,122,.9);}100%{box-shadow:0 0 0 rgba(0,0,0,0);}}
+  #sc .tok{position:absolute;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;z-index:4;transition:left .22s ease,top .22s ease;box-shadow:0 0 8px rgba(0,0,0,.6);pointer-events:none;}
+  #sc .stage{margin-top:10px;display:flex;gap:12px;align-items:center;min-height:120px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px;}
+  #sc .cardimg{width:120px;height:auto;border-radius:10px;border:3px solid var(--gold);box-shadow:0 0 22px rgba(232,207,122,.5);flex:0 0 auto;background:#0a1233;}
+  #sc .cardimg.flip{animation:flip .5s;}
+  @keyframes flip{0%{transform:rotateY(90deg) scale(.7);opacity:0;}100%{transform:rotateY(0) scale(1);opacity:1;}}
+  #sc .cardinfo .nm{font-size:18px;font-weight:700;color:var(--gold);}
+  #sc .cardinfo .fl{font-size:13px;color:var(--cyan);margin:2px 0 6px;}
+  #sc .cardinfo .ev{font-size:13px;line-height:1.5;}
+  #sc .ev b{color:var(--gold);}
+  #sc .hint{color:var(--dim);font-size:13px;text-align:center;width:100%;}
+  #sc .col{display:flex;gap:3px;flex-wrap:wrap;margin-top:8px;min-height:26px;}
+  #sc .col img{width:24px;height:34px;object-fit:cover;border-radius:4px;border:1px solid var(--goldD);}
+  #sc .lb{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;font-size:11.5px;}
+  #sc .lb .t{background:rgba(255,255,255,.07);border-radius:16px;padding:3px 9px;}
+  #sc .ctrl{display:flex;align-items:center;gap:12px;margin-top:10px;}
+  #sc .die{width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,#fff,#dfe6ff);color:#1a2a6c;font-size:34px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(0,0,0,.4);cursor:pointer;user-select:none;}
+  #sc .die.rolling{animation:shake .12s infinite;}
+  @keyframes shake{0%{transform:rotate(-12deg) scale(1.05)}50%{transform:rotate(12deg) scale(.95)}100%{transform:rotate(-8deg) scale(1.05)}}
+  #sc .rollbtn{flex:1;border:none;border-radius:12px;padding:14px;background:linear-gradient(90deg,#c9a227,#e8cf7a);color:#2a2000;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;}
+  #sc .rollbtn:disabled{opacity:.5;cursor:default;}
+  #sc .start input{font-family:inherit;font-size:15px;padding:9px;border:1.5px solid var(--goldD);border-radius:10px;width:100%;text-align:center;background:#0e1b44;color:var(--ink);}
+  #sc .start .sub{text-align:center;color:var(--dim);font-size:12.5px;margin:6px 0 10px;line-height:1.6;}
+  #sc .hide{display:none;}
+  #sc .card{margin:10px auto;max-width:360px;background:radial-gradient(circle at 50% 0%,#2a3a82,#101c4a);border:3px solid var(--gold);border-radius:16px;padding:18px;text-align:center;box-shadow:0 0 30px rgba(232,207,122,.45);}
+  #sc .card .e{font-size:46px;} #sc .card .ti{font-size:21px;font-weight:700;color:var(--gold);margin:4px 0;} #sc .card .de{font-size:13.5px;line-height:1.7;}
+  #sc .cf{position:absolute;top:-24px;font-size:18px;pointer-events:none;animation:fall 1.7s linear forwards;z-index:9;}
+  @keyframes fall{to{transform:translateY(520px) rotate(400deg);opacity:0}}
+  #sc .foot{text-align:center;color:var(--dim);font-size:11px;margin-top:10px;opacity:.7;}
+</style>
+</head>
+<body>
+<div id="sc">
+  <div id="s7Start" class="start">
+    <h1>✦ 善財童子・宇宙奇航　擲骰競賽 ✦</h1>
+    <div class="sub">擲骰前進，沿著 53 位善知識的軌道航行。落點會請出善知識的真實畫像！<br>與三艘 AI 艦隊競速，最先抵達終點「普賢菩薩」者獲勝。</div>
+    <input id="s7Name" maxlength="8" placeholder="你的艦隊名（例：光明號）">
+    <button class="rollbtn" id="s7Go" style="margin-top:10px;">啟航</button>
+  </div>
+  <div id="s7Game" class="hide">
+    <h1>✦ 衝向普賢菩薩！✦</h1>
+    <div class="board" id="s7Board"></div>
+    <div class="stage" id="s7Stage"><div class="hint">點「擲骰前進」開始航行。最先到第 53 格普賢者勝！</div></div>
+    <div class="col" id="s7Col"></div>
+    <div class="lb" id="s7LB"></div>
+    <div class="ctrl"><div class="die" id="s7Die">🎲</div><button class="rollbtn" id="s7Roll">擲骰前進</button></div>
+    <div class="foot">插畫 © 寶嚴禪寺《善財童子宇宙奇航》　依《華嚴經・入法界品》五十三參</div>
+  </div>
+  <div id="s7Over" class="hide"></div>
+</div>
+<script>
+(function(){
+  var NM=["德雲比丘","海雲比丘","善住比丘","彌伽長者","解脫長者","海幢比丘","休捨優婆夷","毗目瞿沙仙人","勝熱婆羅門","慈行童女","善見比丘","自在主童子","具足優婆夷","明智居士","法寶髻長者","普眼長者","無厭足王","大光王","不動優婆夷","遍行外道","優缽羅華長者","婆施羅船師","無上勝長者","師子頻申比丘尼","婆須蜜多女","鞞瑟胝羅居士","觀自在菩薩","正趣菩薩","大天神","安住地神","婆珊婆演底主夜神","普德淨光主夜神","喜目觀察眾生主夜神","普救眾生妙德主夜神","寂靜音海主夜神","守護一切城主夜神","開敷一切樹華主夜神","大願精進力主夜神","妙德圓滿神","釋種瞿波女","摩耶夫人","天主光童女","遍友童子","善知眾藝童子","賢勝優婆夷","堅固解脫長者","妙月長者","無勝軍長者","最寂靜婆羅門","德生童子有德童女","彌勒菩薩","文殊師利菩薩","普賢菩薩"];
+  var RG="DFDKDDFKKFKKFKFFKFDFKFDKKFFKKDFDFFFFDFKKFDKKFDKKKKFKA".split("");
+  var FL=["心燈光明","包容如海","心安步穩","妙音善語","放下自在","般若入定","離憂安隱","堅志不動","難關淬鍊","慈悲善巧","明辨順緣","工巧算數","布施無盡","智善如願","積善寶藏","療癒關懷","嚴正方便","大慈領眾","求法不厭","廣結善緣","明辨品味","大悲渡海","內心依止","無畏自信","善巧轉念","珍惜當下","大悲聞聲","把握時機","靈活應變","腳踏實地","破暗明燈","鬧中寧靜","歡喜順緣","助人危難","常生歡喜","守護福德","靜待花開","立願精進","圓滿累積","清淨觀照","孕育守護","正念清明","謙虛求教","博學專注","賢德福報","意志堅定","光明磊落","無畏挑戰","真誠願語","得失如幻","歡喜大願","大智抉擇","行願圓滿"];
+  var COLORS=["#e8cf7a","#5fd3e8","#9b7be0","#ff6b81"];
+  var $=function(i){return document.getElementById(i);};
+  var board=$('s7Board'),cellByNode={},toks=[],busy=false,name,collected={};
+  function pad(n){return ('0'+n).slice(-2);}
+  var ac=null;function AC(){try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();}catch(e){}return ac;}
+  function tone(f,t0,d,ty,v){var a=AC();if(!a)return;var o=a.createOscillator(),g=a.createGain();o.type=ty||'sine';o.frequency.value=f;o.connect(g);g.connect(a.destination);var t=a.currentTime+t0;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v||.14,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d);}
+  function sBlip(){tone(740+Math.random()*120,0,.08,'triangle',.12);}
+  function sRoll(){[300,360,300,400].forEach(function(f,i){tone(f,i*.07,.07,'square',.08);});}
+  function sLand(){tone(659,0,.1,'sine',.16);tone(988,.09,.16,'sine',.16);}
+  function sWin(){[523,659,784,1046,1318].forEach(function(f,i){tone(f,i*.12,.3,'sine',.18);});}
+  function burst(){for(var i=0;i<26;i++){(function(){var s=document.createElement('span');s.className='cf';s.textContent=['✨','🌟','💎','🎉','🪐','⭐'][i%6];s.style.left=(Math.random()*100)+'%';s.style.animationDelay=(Math.random()*.5)+'s';$('sc').appendChild(s);setTimeout(function(){s.remove();},2600);})();}}
+  function buildBoard(){var html='';for(var r=0;r<6;r++){for(var dc=0;dc<9;dc++){var node=(r%2===0)?(r*9+dc):(r*9+(8-dc));if(node>53)continue;
+    var cls='cell',lab=node;if(node===0){cls+=' start';lab='🚀';}else if(node===53){cls+=' end';lab='🏁';}else{cls+=' '+RG[node-1];}
+    html+='<div class="'+cls+'" data-node="'+node+'">'+lab+'</div>';}}
+  board.innerHTML=html;cellByNode={};
+  [].forEach.call(board.querySelectorAll('.cell'),function(c){cellByNode[c.getAttribute('data-node')]=c;});}
+  function posTok(t){var c=cellByNode[Math.min(53,t.pos)];if(!c)return;var br=board.getBoundingClientRect(),cr=c.getBoundingClientRect();
+    var x=cr.left-br.left+cr.width/2,y=cr.top-br.top+cr.height/2,ox=(t.idx-1.5)*6,oy=(t.idx%2?5:-5);
+    t.el.style.left=(x+ox-8.5)+'px';t.el.style.top=(y+oy-8.5)+'px';}
+  function lbRender(){$('s7LB').innerHTML=toks.slice().sort(function(a,b){return b.pos-a.pos;}).map(function(t){return '<span class="t"'+(t.isP?' style="color:var(--gold)"':'')+'>'+(t.isP?'★':'')+t.name+'：第'+t.pos+'格</span>';}).join('');}
+  function flash(node){var c=cellByNode[Math.min(53,node)];if(c){c.classList.remove('lit');void c.offsetWidth;c.classList.add('lit');}}
+  function start(){name=($('s7Name').value||"光明號").slice(0,8);AC();collected={};
+    $('s7Start').classList.add('hide');$('s7Over').classList.add('hide');$('s7Game').classList.remove('hide');
+    buildBoard();toks=[];$('s7Col').innerHTML='';
+    [{n:name,isP:true},{n:"慈悲號"},{n:"智慧號"},{n:"願力號"}].forEach(function(d,i){var e=document.createElement('div');e.className='tok';e.style.background=COLORS[i];e.style.color='#10204a';e.textContent=d.isP?'🚀':'●';board.appendChild(e);toks.push({el:e,pos:0,name:d.n,isP:!!d.isP,idx:i});});
+    setTimeout(function(){toks.forEach(posTok);lbRender();},60);
+  }
+  function rollDie(cb){var die=$('s7Die');die.classList.add('rolling');sRoll();var n=0,iv=setInterval(function(){die.textContent=['⚀','⚁','⚂','⚃','⚄','⚅'][Math.floor(Math.random()*6)];n++;if(n>7){clearInterval(iv);die.classList.remove('rolling');var v=1+Math.floor(Math.random()*6);die.textContent=['⚀','⚁','⚂','⚃','⚄','⚅'][v-1];cb(v);}},70);}
+  function stepMove(t,steps,done){var i=0;(function hop(){if(i>=steps||t.pos>=53){done();return;}t.pos++;i++;posTok(t);flash(t.pos);sBlip();lbRender();if(t.pos>=53){done();return;}setTimeout(hop,230);})();}
+  function showCard(pos){if(pos<1||pos>53)return;var nm=NM[pos-1],fl=FL[pos-1],rg=RG[pos-1];var r=rg==='K'?'智慧':rg==='D'?'禪定':rg==='F'?'福德':'圓滿';
+    var ev='';var x=Math.random();if(x<0.25)ev='<b>🟣 命運</b>：善行之光照耀，福報增長！';else if(x<0.45)ev='<b>🟢 機會</b>：'+r+'任務達成！';else if(x<0.55)ev='<b>✨ 神秘任務</b>：神獸現身護持！';else ev='善知識為你開示「'+fl+'」之道。';
+    sLand();collected[pos]=true;
+    $('s7Stage').innerHTML='<img class="cardimg flip" src="cards/'+pad(pos)+'.jpg" alt="'+nm+'" onerror="this.src=\'cards/back.jpg\'"><div class="cardinfo"><div class="nm">'+pos+'. '+nm+'</div><div class="fl">'+r+'　•　'+fl+'</div><div class="ev">'+ev+'</div></div>';
+    var col=$('s7Col');var im=document.createElement('img');im.src='cards/'+pad(pos)+'.jpg';im.title=nm;im.onerror=function(){this.src='cards/back.jpg';};col.appendChild(im);
+  }
+  function rollLite(cb){var v=1+Math.floor(Math.random()*6);setTimeout(function(){cb(v);},250);}
+  function aiTurns(idx){if(idx>=toks.length){busy=false;$('s7Roll').disabled=false;return;}var t=toks[idx];if(t.isP){aiTurns(idx+1);return;}
+    rollLite(function(v){t.pos=Math.min(53,t.pos+v);posTok(t);flash(t.pos);sBlip();lbRender();if(t.pos>=53){setTimeout(function(){win(t);},300);return;}setTimeout(function(){aiTurns(idx+1);},460);});}
+  function go(){if(busy)return;busy=true;$('s7Roll').disabled=true;
+    rollDie(function(v){var p=toks[0];stepMove(p,v,function(){if(p.pos>=53){win(p);return;}showCard(p.pos);setTimeout(function(){aiTurns(1);},600);});});}
+  function win(t){busy=true;$('s7Roll').disabled=true;sWin();burst();$('s7Game').classList.add('hide');
+    var pl=toks[0],rk=1;toks.forEach(function(x){if(x!==pl&&x.pos>pl.pos)rk++;});
+    var got=Object.keys(collected).length;
+    $('s7Over').innerHTML='<div class="card"><div class="e">'+(t.isP?'🏆':'🪐')+'</div><div class="ti">'+(t.isP?'你的艦隊奪冠！':t.name+' 先抵達普賢')+'</div><div class="de">'+(t.isP?'你成為「福慧圓滿的宇宙善財童子」！':'你排第 '+rk+' 名，下次再衝！')+'<br>沿途禮請了 '+got+' 位善知識畫像。</div></div><button class="rollbtn" id="s7Again" style="max-width:360px;margin:0 auto;display:block;">再比一場</button>';
+    $('s7Over').classList.remove('hide');
+    $('s7Again').addEventListener('click',function(){$('s7Over').classList.add('hide');$('s7Start').classList.remove('hide');$('s7Name').value=name;});}
+  $('s7Go').addEventListener('click',start);
+  $('s7Roll').addEventListener('click',go);
+  $('s7Die').addEventListener('click',go);
+  window.addEventListener('resize',function(){toks.forEach(posTok);});
+})();
+</script>
+</body>
+</html>
